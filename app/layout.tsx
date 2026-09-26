@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import FloatingContactWidget from '@/components/FloatingContactWidget';
+import TawkTo from '@/components/TawkTo';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
@@ -84,6 +85,7 @@ export default function RootLayout({
       <body className={`bg-slate-950 text-slate-50 selection:bg-lime-500/30 antialiased ${inter.className}`} suppressHydrationWarning>
         {children}
         <FloatingContactWidget />
+        <TawkTo />
       </body>
     </html>
   );

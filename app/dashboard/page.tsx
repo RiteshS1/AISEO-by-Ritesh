@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { getProfile, listReportsByUserId } from '@/lib/supabaseServer';
 import Link from 'next/link';
-import ReportStatusTracker from './ReportStatusTracker';
+import ReportList from './ReportList';
 
 const CALCOM_URL = 'https://cal.com/ritesh-sharma-hfn1t8/15min';
 
@@ -122,70 +122,7 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
-        {/* Past reports */}
-        <div>
-          <h2 className="text-lg font-black uppercase tracking-tighter text-white mb-4">
-            Past reports
-          </h2>
-          {reports.length === 0 ? (
-            <div className="p-8 bg-slate-900/40 border border-white/10 rounded-[7px] text-center">
-              <p className="text-slate-500 text-[11px] font-bold uppercase tracking-widest">
-                No reports yet. Run your first audit above.
-              </p>
-            </div>
-          ) : (
-            <ul className="space-y-2">
-              {reports.map((r) => {
-                const statusLabel =
-                  r.report_status === 'published'
-                    ? 'Report ready'
-                    : r.report_status === 'rejected'
-                      ? 'Rejected by admin'
-                      : r.report_status === 'generating'
-                        ? 'AI engine analyzing'
-                        : r.report_status === 'in_review'
-                          ? 'Quality verification'
-                          : r.report_status === 'pending_approval'
-                            ? 'Awaiting admin review'
-                            : 'Draft';
-                const statusClass =
-                  r.report_status === 'published'
-                    ? 'text-lime-400'
-                    : r.report_status === 'rejected'
-                      ? 'text-red-400'
-                      : 'text-amber-400';
-                return (
-                  <li key={r.report_id}>
-                    <Link
-                      href={r.report_status === 'published' ? `/report/${r.report_id}` : '/dashboard'}
-                      className="block p-4 bg-slate-900/40 border border-white/10 rounded-[7px] hover:border-lime-400/30 transition-all"
-                    >
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="text-white font-bold uppercase tracking-tight">
-                          {r.brandName ?? 'Report'}
-                        </span>
-                        <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
-                          {new Date(r.created_at).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className={`text-[10px] font-bold uppercase tracking-widest ${statusClass}`}>
-                        {statusLabel}
-                      </p>
-                      <div className="mt-3">
-                        <ReportStatusTracker status={r.report_status ?? 'draft'} />
-                      </div>
-                      {r.overallScore != null && (
-                        <p className="text-slate-500 text-[10px] mt-1">
-                          Score: {r.overallScore}
-                        </p>
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
+        <ReportList initialReports={reports} />
       </div>
     </div>
   );

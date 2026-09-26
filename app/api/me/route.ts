@@ -15,6 +15,9 @@ export async function GET() {
     const reports = await listReportsByUserId(user.id);
     return NextResponse.json({
       audit_count: profile.audit_count,
+      plan: profile.plan,
+      creditsRemaining: profile.credits_remaining,
+      creditsUsed: profile.credits_used,
       reports,
     });
   } catch (err) {
