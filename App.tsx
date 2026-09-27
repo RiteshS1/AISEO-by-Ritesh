@@ -398,25 +398,42 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      <footer className='py-20 border-t border-white/5 bg-black text-center'>
-        <div className='flex justify-center items-center gap-2 mb-4'>
-          <span className='text-xl font-black uppercase tracking-tighter text-white'>AIEO</span>
-          <span className='text-[10px] font-bold text-lime-400 uppercase tracking-widest'>by Ritesh</span>
-        </div>
-        <p className='text-[10px] font-black uppercase tracking-[0.3em] text-slate-700'>Digital visibility solutions for modern brands.</p>
-        <div className='mt-10 flex justify-center gap-10 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500'>
-          <a href='#audit' className='hover:text-lime-400 cursor-pointer transition-colors'>
-            Search Results
-          </a>
-          <a href='#synergy' className='hover:text-lime-400 cursor-pointer transition-colors'>
-            AI Content
-          </a>
-          <a href='/privacy' target='_blank' rel='noopener noreferrer' className='hover:text-lime-400 cursor-pointer transition-colors'>
-            Privacy Policy
-          </a>
-          <a href='/terms' target='_blank' rel='noopener noreferrer' className='hover:text-lime-400 cursor-pointer transition-colors'>
-            Terms of Service
-          </a>
+      <footer className='py-24 md:py-28 border-t border-white/5 bg-black relative overflow-hidden'>
+        <div
+          className='absolute inset-0 opacity-[0.02] pointer-events-none'
+          style={{ backgroundImage: 'radial-gradient(#d9ff00 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+        />
+        <div className='relative z-10 max-w-7xl mx-auto px-6 text-center'>
+          <div className='flex flex-col items-center gap-3 mb-8'>
+            <h2 className='text-4xl md:text-6xl font-black uppercase tracking-tighter text-white leading-none'>
+              AISEO
+            </h2>
+            <p className='text-[11px] font-bold uppercase tracking-[0.35em] text-lime-400'>
+              by Ritesh Sharma
+            </p>
+          </div>
+          <p className='text-[10px] font-black uppercase tracking-[0.3em] text-slate-600 max-w-md mx-auto leading-relaxed'>
+            Digital visibility solutions for modern brands — engineered for AI search.
+          </p>
+          <div className='mt-14 flex flex-wrap justify-center gap-x-10 gap-y-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500'>
+            <a href='#audit' className='hover:text-lime-400 cursor-pointer transition-colors'>
+              Search Results
+            </a>
+            <a href='#synergy' className='hover:text-lime-400 cursor-pointer transition-colors'>
+              AI Content
+            </a>
+            <a href='/privacy' target='_blank' rel='noopener noreferrer' className='hover:text-lime-400 cursor-pointer transition-colors'>
+              Privacy Policy
+            </a>
+            <a href='/terms' target='_blank' rel='noopener noreferrer' className='hover:text-lime-400 cursor-pointer transition-colors'>
+              Terms of Service
+            </a>
+          </div>
+          <div className='mt-16 pt-10 border-t border-white/5'>
+            <p className='text-[9px] font-bold uppercase tracking-[0.25em] text-slate-700'>
+              © {new Date().getFullYear()} AISEO by Ritesh. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
     </div>

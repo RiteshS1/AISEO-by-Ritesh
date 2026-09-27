@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { CALCOM_URL } from '@/constants/contact';
 
 export default function DashboardNav({ userEmail }: { userEmail: string }) {
   const pathname = usePathname();
@@ -48,6 +49,7 @@ export default function DashboardNav({ userEmail }: { userEmail: string }) {
               <Link
                 key={href}
                 href={href}
+                prefetch
                 className={`block px-4 py-3 text-[11px] font-bold uppercase tracking-widest rounded-[7px] transition-all ${
                   active
                     ? 'bg-lime-400/20 text-lime-400 border border-lime-400/30'
@@ -58,6 +60,17 @@ export default function DashboardNav({ userEmail }: { userEmail: string }) {
               </Link>
             );
           })}
+          <a
+            href={CALCOM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-3 text-[11px] font-bold uppercase tracking-widest rounded-[7px] text-slate-400 hover:text-lime-400 hover:bg-white/5 transition-all"
+          >
+            <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Schedule a Call
+          </a>
         </nav>
         <div className="p-4 border-t border-white/5 space-y-2">
           <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest truncate px-2" title={userEmail}>
@@ -82,6 +95,7 @@ export default function DashboardNav({ userEmail }: { userEmail: string }) {
               <Link
                 key={href}
                 href={href}
+                prefetch
                 className={`flex flex-col items-center justify-center gap-1 flex-1 py-2 rounded-[7px] transition-all ${
                   active ? 'text-lime-400' : 'text-slate-400 hover:text-white'
                 }`}
@@ -94,6 +108,18 @@ export default function DashboardNav({ userEmail }: { userEmail: string }) {
               </Link>
             );
           })}
+          <a
+            href={CALCOM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center justify-center gap-1 flex-1 py-2 rounded-[7px] text-slate-400 hover:text-lime-400 transition-all"
+            aria-label="Schedule a Call"
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="text-[9px] font-bold uppercase tracking-widest">Call</span>
+          </a>
           <button
             type="button"
             onClick={handleLogout}

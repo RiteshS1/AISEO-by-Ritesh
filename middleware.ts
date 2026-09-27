@@ -34,7 +34,6 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
-  // Protect dashboard and admin routes at the session boundary.
   const isDashboard = pathname === '/dashboard' || pathname.startsWith('/dashboard/');
   const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
   if ((isDashboard || isAdmin) && !user) {
@@ -47,8 +46,10 @@ export async function middleware(request: NextRequest) {
   return supabaseResponse;
 }
 
+/**
+ * Only run auth middleware on protected routes so the public landing page
+ * can stay statically cached (avoids Supabase round-trip on every TTFB).
+ */
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  matcher: ['/dashboard/:path*', '/admin/:path*'],
 };

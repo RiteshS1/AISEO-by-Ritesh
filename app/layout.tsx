@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import FloatingContactWidget from '@/components/FloatingContactWidget';
-import TawkTo from '@/components/TawkTo';
+import AIChatWidget from '@/components/AIChatWidget';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700', '800'],
   variable: '--font-inter',
   display: 'swap',
 });
@@ -36,6 +35,10 @@ export const metadata: Metadata = {
     'answer engine optimization',
     'AISEO by Ritesh',
   ],
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/apple-icon', type: 'image/png' }],
+  },
   openGraph: {
     title: 'AISEO by Ritesh | AI Search Visibility',
     description:
@@ -84,8 +87,7 @@ export default function RootLayout({
       </head>
       <body className={`bg-slate-950 text-slate-50 selection:bg-lime-500/30 antialiased ${inter.className}`} suppressHydrationWarning>
         {children}
-        <FloatingContactWidget />
-        <TawkTo />
+        <AIChatWidget />
       </body>
     </html>
   );

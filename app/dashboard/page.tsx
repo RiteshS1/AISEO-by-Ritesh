@@ -1,9 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { getProfile, listReportsByUserId } from '@/lib/supabaseServer';
+import { CALCOM_URL } from '@/constants/contact';
 import Link from 'next/link';
 import ReportList from './ReportList';
-
-const CALCOM_URL = 'https://cal.com/ritesh-sharma-hfn1t8/15min';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
