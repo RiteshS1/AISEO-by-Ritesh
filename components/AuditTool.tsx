@@ -462,24 +462,21 @@ const AuditTool: React.FC<AuditToolProps> = ({ initialData, initialReportId, isP
   const canExportPdf = !isPublicDemo && Boolean(isAdminView)
 
   const handleExportPdf = async () => {
-    if (pdfExporting) return
-    const originalPage = activePage
+    if (pdfExporting || !result) return
     setPdfExporting(true)
     setPdfError('')
     try {
       const { exportReportPdf } = await import('@/lib/exportReportPdf')
       const brand = (formData.brandName || 'report').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')
       await exportReportPdf({
-        getNode: () => reportRef.current,
-        goToPage: (id) => setActivePage(id as ReportPage),
-        pageIds: REPORT_NAV_ITEMS.map((item) => item.id),
+        result,
+        inputs: formData,
         fileName: `AISEO-Report-${brand}-${new Date().toISOString().slice(0, 10)}.pdf`,
       })
     } catch (e) {
       console.error('PDF export failed', e)
       setPdfError('Could not generate the PDF. Please try again.')
     } finally {
-      setActivePage(originalPage)
       setPdfExporting(false)
     }
   }
