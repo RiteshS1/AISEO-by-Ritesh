@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { CALCOM_URL } from '@/constants/contact';
+import { BUYMEACOFFEE_URL, CALCOM_URL } from '@/constants/contact';
 
 export default function DashboardNav({ userEmail }: { userEmail: string }) {
   const pathname = usePathname();
@@ -70,6 +70,17 @@ export default function DashboardNav({ userEmail }: { userEmail: string }) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             Schedule a Call
+          </a>
+          <a
+            href={BUYMEACOFFEE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-3 text-[11px] font-bold uppercase tracking-widest rounded-[7px] text-slate-400 hover:text-lime-400 hover:bg-white/5 transition-all"
+          >
+            <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 9h13v4a5 5 0 01-5 5H8a5 5 0 01-5-5V9zm13 1h1.5a2.5 2.5 0 010 5H16M7 3v3m4-3v3M4 21h11" />
+            </svg>
+            Buy me Coffee
           </a>
         </nav>
         <div className="p-4 border-t border-white/5 space-y-2">

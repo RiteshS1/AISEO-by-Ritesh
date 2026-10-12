@@ -3,6 +3,7 @@
 import AuditTool from '@/components/AuditTool'
 import { DEMO_INITIAL_DATA } from '@/components/AuditTool'
 import Navbar from '@/components/Navbar'
+import { BUYMEACOFFEE_URL } from '@/constants/contact'
 import { FAQ_ITEMS } from '@/constants/faq'
 import { SectionId } from '@/types'
 import React, { useEffect, useState } from 'react'
@@ -427,6 +428,9 @@ const App: React.FC = () => {
             </a>
             <a href='/terms' target='_blank' rel='noopener noreferrer' className='hover:text-lime-400 cursor-pointer transition-colors'>
               Terms of Service
+            </a>
+            <a href={BUYMEACOFFEE_URL} target='_blank' rel='noopener noreferrer' className='hover:text-lime-400 cursor-pointer transition-colors'>
+              Buy me a Coffee
             </a>
           </div>
           <div className='mt-16 pt-10 border-t border-white/5'>
