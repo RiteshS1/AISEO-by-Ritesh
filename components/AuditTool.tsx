@@ -219,6 +219,8 @@ const AuditTool: React.FC<AuditToolProps> = ({ initialData, initialReportId, isP
   const [auditSubmitting, setAuditSubmitting] = useState(false)
   const [demoResolved, setDemoResolved] = useState(!isPublicDemo)
   const [reportLoading, setReportLoading] = useState(Boolean(initialReportId && !initialData))
+  const [pdfExporting, setPdfExporting] = useState(false)
+  const [pdfError, setPdfError] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
   const reportRef = useRef<HTMLDivElement>(null)
@@ -456,6 +458,48 @@ const AuditTool: React.FC<AuditToolProps> = ({ initialData, initialReportId, isP
   }
   const isRestricted = (page: ReportPage) =>
     isAdminView ? false : page !== 'COVER' && page !== 'SUMMARY'
+  // Export captures every tab, so only offer it when no tab is restricted.
+  const canExportPdf = !isPublicDemo && Boolean(isAdminView)
+
+  const handleExportPdf = async () => {
+    if (pdfExporting) return
+    const originalPage = activePage
+    setPdfExporting(true)
+    setPdfError('')
+    try {
+      const { exportReportPdf } = await import('@/lib/exportReportPdf')
+      const brand = (formData.brandName || 'report').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')
+      await exportReportPdf({
+        getNode: () => reportRef.current,
+        goToPage: (id) => setActivePage(id as ReportPage),
+        pageIds: REPORT_NAV_ITEMS.map((item) => item.id),
+        fileName: `AISEO-Report-${brand}-${new Date().toISOString().slice(0, 10)}.pdf`,
+      })
+    } catch (e) {
+      console.error('PDF export failed', e)
+      setPdfError('Could not generate the PDF. Please try again.')
+    } finally {
+      setActivePage(originalPage)
+      setPdfExporting(false)
+    }
+  }
+
+  const exportPdfButton = canExportPdf ? (
+    <>
+      <button
+        type='button'
+        onClick={handleExportPdf}
+        disabled={pdfExporting}
+        className='w-full flex items-center justify-center gap-2 px-4 py-3 text-[10px] font-black uppercase tracking-widest rounded-[7px] transition-all border border-lime-400/40 text-lime-400 hover:bg-lime-400 hover:text-black disabled:opacity-60 disabled:cursor-wait'
+      >
+        <svg className='w-3 h-3 shrink-0' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2.5} d='M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4' />
+        </svg>
+        {pdfExporting ? 'Preparing PDF...' : 'Download PDF'}
+      </button>
+      {pdfError && <p className='text-red-400 text-[10px] font-bold uppercase tracking-widest mt-2 text-center'>{pdfError}</p>}
+    </>
+  ) : null
 
   return (
     <div className='w-full p-0.5 bg-gradient-to-r from-lime-400 via-emerald-400 to-lime-400 shadow-neon rounded-[7px]'>
@@ -622,7 +666,7 @@ const AuditTool: React.FC<AuditToolProps> = ({ initialData, initialReportId, isP
         {!(isPublicDemo && !demoResolved) && step === 'COMPLETE' && result && (
           <div className='flex flex-col md:flex-row min-h-[800px] animate-in fade-in duration-1000'>
             {/* Mobile: tab dropdown at top of report */}
-            <div className='block md:hidden p-4 border-b border-white/5 bg-slate-900/10'>
+            <div className='block md:hidden p-4 border-b border-white/5 bg-slate-900/10 space-y-3'>
               <select
                 value={activePage}
                 onChange={(e) => setActivePage(e.target.value as ReportPage)}
@@ -635,6 +679,7 @@ const AuditTool: React.FC<AuditToolProps> = ({ initialData, initialReportId, isP
                   </option>
                 ))}
               </select>
+              {exportPdfButton}
             </div>
             {/* Desktop: vertical sidebar */}
             <div className='hidden md:flex w-full md:w-72 border-r border-white/5 bg-slate-900/10 flex-col p-8 shrink-0'>
@@ -662,6 +707,8 @@ const AuditTool: React.FC<AuditToolProps> = ({ initialData, initialReportId, isP
                   </button>
                 ))}
               </div>
+
+              {exportPdfButton && <div className='mt-4'>{exportPdfButton}</div>}
 
               {!isPublicDemo && !isPublicReportPage && (
                 <button
